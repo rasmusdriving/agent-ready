@@ -32,7 +32,7 @@ AgentReady's first goal is to be useful to real maintainers before it becomes br
 - [x] Missing file reference detection.
 - [x] Required `AGENTS.md` section checks.
 - [ ] Contradictory instruction detection across docs.
-- [ ] Safer Markdown path-reference parsing.
+- [x] Safer Markdown path-reference parsing.
 - [ ] Better monorepo workspace reporting.
 
 ## Phase 3: GitHub Action

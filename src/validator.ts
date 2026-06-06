@@ -2,6 +2,7 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import { readTextIfExists } from "./fs.js";
 import { loadConfig } from "./config.js";
+import { extractMarkdownPathReferences } from "./markdown-paths.js";
 import type { PackageManager, RepoScan, ValidationIssue } from "./types.js";
 
 const docPaths = [
@@ -167,7 +168,7 @@ function checkMissingFileReferences(
   doc: { path: string; content: string },
   root: string
 ): ValidationIssue[] {
-  const candidates = extractPathReferences(doc.content);
+  const candidates = extractMarkdownPathReferences(doc.content);
 
   return candidates
     .filter((candidate) => !candidate.startsWith(".github/ISSUE_TEMPLATE/"))
@@ -207,38 +208,6 @@ async function readDocs(root: string): Promise<Array<{ path: string; content: st
   }
 
   return docs;
-}
-
-function extractPathReferences(content: string): string[] {
-  const references = new Set<string>();
-  const markdownLinks = content.matchAll(/\]\(([^)#][^)]+)\)/g);
-  const inlineCode = content.matchAll(
-    /`([^`\n]+\.[a-zA-Z0-9]{1,12}|[A-Za-z0-9_.-]+\/[A-Za-z0-9_./-]+)`/g
-  );
-
-  for (const match of markdownLinks) {
-    addReference(references, match[1]);
-  }
-
-  for (const match of inlineCode) {
-    addReference(references, match[1]);
-  }
-
-  return [...references];
-}
-
-function addReference(references: Set<string>, rawValue: string): void {
-  const value = rawValue.trim();
-  if (
-    value.startsWith("http") ||
-    value.startsWith("mailto:") ||
-    value.startsWith("#") ||
-    value.includes(" ")
-  ) {
-    return;
-  }
-
-  references.add(value.replace(/^\.\//, ""));
 }
 
 function commandRegex(manager: PackageManager): RegExp {
