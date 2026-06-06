@@ -1,0 +1,25 @@
+{
+  "$schema": "https://agentready.dev/schema.json",
+  "version": 1,
+  "profile": "codex",
+  "mode": "warn",
+  "commands": {
+    "install": "npm install",
+    "test": "npm test",
+    "lint": "npm run lint",
+    "build": "npm run build"
+  },
+  "docs": {
+    "agents": "AGENTS.md",
+    "contributing": "CONTRIBUTING.md",
+    "prTemplate": ".github/pull_request_template.md"
+  },
+  "rules": {
+    "requireAgentsMd": true,
+    "requireContributing": false,
+    "requirePrTemplate": true,
+    "checkPackageManagerMismatch": true,
+    "checkMissingScripts": true,
+    "checkMissingFileReferences": true
+  }
+}

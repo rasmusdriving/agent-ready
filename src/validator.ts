@@ -52,6 +52,33 @@ export async function validateRepo(
     });
   }
 
+  if (
+    config?.rules.requireContributing &&
+    !docs.some((doc) => doc.path === "CONTRIBUTING.md")
+  ) {
+    issues.push({
+      category: "missing-section",
+      severity: "error",
+      file: "CONTRIBUTING.md",
+      message: "CONTRIBUTING.md is required by config but missing.",
+      suggestion: "Run `agent-ready init --yes` or create a human contributor guide."
+    });
+  }
+
+  if (
+    config?.rules.requirePrTemplate &&
+    !docs.some((doc) => doc.path === ".github/pull_request_template.md")
+  ) {
+    issues.push({
+      category: "missing-section",
+      severity: "error",
+      file: ".github/pull_request_template.md",
+      message: "A pull request template is required by config but missing.",
+      suggestion:
+        "Run `agent-ready init --yes --include-pr-template` or create a PR template."
+    });
+  }
+
   for (const doc of docs) {
     issues.push(...checkPackageManagerMismatch(doc, scan));
     issues.push(...checkStaleCommands(doc, scan));

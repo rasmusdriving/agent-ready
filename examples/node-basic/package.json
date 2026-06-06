@@ -1,0 +1,15 @@
+{
+  "name": "agent-ready-node-basic-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}
