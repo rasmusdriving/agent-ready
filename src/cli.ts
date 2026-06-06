@@ -35,7 +35,7 @@ async function main(): Promise<void> {
 
   if (options.command === "badge") {
     process.stdout.write(
-      "[![AgentReady](https://img.shields.io/badge/agent--ready-checked-brightgreen)](https://github.com/agentready/agent-ready)\n"
+      "[![AgentReady](https://img.shields.io/badge/agent--ready-checked-brightgreen)](https://github.com/rasmusdriving/agent-ready)\n"
     );
     return;
   }
