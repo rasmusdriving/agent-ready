@@ -83,4 +83,44 @@ Stay local.
 
     expect(issues).toEqual([]);
   });
+
+  it("finds invalid npm script shorthand", async () => {
+    const root = await createTempRepo();
+    await writeJson(path.join(root, "package.json"), {
+      scripts: {
+        lint: "eslint ."
+      }
+    });
+    await writeText(
+      path.join(root, "AGENTS.md"),
+      `# AGENTS.md
+
+## Project overview
+Sample.
+
+## Setup
+npm install
+
+## Testing
+No tests.
+
+## Linting and formatting
+npm lint
+
+## Pull request expectations
+Run checks.
+
+## Review guidelines
+Check commands.
+
+## Security and privacy notes
+Stay local.
+`
+    );
+
+    const scan = await scanRepo(root);
+    const issues = await validateRepo(scan);
+
+    expect(issues.some((issue) => issue.message.includes("npm run lint"))).toBe(true);
+  });
 });

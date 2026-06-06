@@ -119,6 +119,8 @@ function checkStaleCommands(
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
 
+  issues.push(...checkInvalidNpmScriptSyntax(doc));
+
   for (const manager of managers) {
     const matches = doc.content.matchAll(
       new RegExp(
@@ -142,6 +144,23 @@ function checkStaleCommands(
   }
 
   return issues;
+}
+
+function checkInvalidNpmScriptSyntax(doc: {
+  path: string;
+  content: string;
+}): ValidationIssue[] {
+  const invalidMatches = doc.content.matchAll(
+    /\bnpm\s+(lint|build|format|typecheck|dev)\b/g
+  );
+
+  return [...invalidMatches].map((match) => ({
+    category: "stale-command" as const,
+    severity: "error" as const,
+    file: doc.path,
+    message: `${doc.path} references \`${match[0]}\`, but npm scripts other than test should use \`npm run ${match[1]}\`.`,
+    suggestion: `Replace \`${match[0]}\` with \`npm run ${match[1]}\`.`
+  }));
 }
 
 function checkMissingFileReferences(
