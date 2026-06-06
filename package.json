@@ -4,7 +4,7 @@
   "description": "Local-first CLI that generates and validates repository instructions for coding agents and human contributors.",
   "type": "module",
   "bin": {
-    "agent-ready": "./dist/cli.js"
+    "agent-ready": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -15,7 +15,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/make-bin-executable.mjs",
     "dev": "tsx src/cli.ts",
     "test": "vitest run",
     "test:watch": "vitest",
