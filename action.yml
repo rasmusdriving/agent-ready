@@ -1,0 +1,27 @@
+name: AgentReady
+description: Check that repository contributor and agent instructions match repo reality.
+author: Rasmus Driving
+inputs:
+  mode:
+    description: Use warn to avoid failing CI, or fail to block on errors.
+    required: false
+    default: warn
+  format:
+    description: Output format passed to agent-ready check.
+    required: false
+    default: markdown
+  config:
+    description: Optional path to .agent-ready/config.json.
+    required: false
+    default: .agent-ready/config.json
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        set -euo pipefail
+        WARN_FLAG=""
+        if [ "${{ inputs.mode }}" = "warn" ]; then
+          WARN_FLAG="--warn-only"
+        fi
+        npx agent-ready check --format "${{ inputs.format }}" --config "${{ inputs.config }}" $WARN_FLAG | tee -a "$GITHUB_STEP_SUMMARY"

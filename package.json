@@ -1,0 +1,57 @@
+{
+  "name": "agent-ready",
+  "version": "0.1.0",
+  "description": "Local-first CLI that generates and validates repository instructions for coding agents and human contributors.",
+  "type": "module",
+  "bin": {
+    "agent-ready": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "check": "npm run build && npm run test && npm run lint && npm run format",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasmusdriving/agent-ready.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rasmusdriving/agent-ready/issues"
+  },
+  "homepage": "https://github.com/rasmusdriving/agent-ready#readme",
+  "keywords": [
+    "agents",
+    "codex",
+    "cli",
+    "open-source",
+    "contributing",
+    "github-actions"
+  ],
+  "author": "Rasmus Driving",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^4.0.14"
+  }
+}
