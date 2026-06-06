@@ -219,7 +219,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npx agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
+      - run: npx @rasmusdriving/agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
 `;
 }
 

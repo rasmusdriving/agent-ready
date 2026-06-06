@@ -24,4 +24,4 @@ runs:
         if [ "${{ inputs.mode }}" = "warn" ]; then
           WARN_FLAG="--warn-only"
         fi
-        npx agent-ready check --format "${{ inputs.format }}" --config "${{ inputs.config }}" $WARN_FLAG | tee -a "$GITHUB_STEP_SUMMARY"
+        npx @rasmusdriving/agent-ready check --format "${{ inputs.format }}" --config "${{ inputs.config }}" $WARN_FLAG | tee -a "$GITHUB_STEP_SUMMARY"

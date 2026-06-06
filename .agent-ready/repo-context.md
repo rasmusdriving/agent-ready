@@ -2,7 +2,7 @@
 
 ## Project
 
-- Name: agent-ready
+- Name: @rasmusdriving/agent-ready
 - Ecosystem: Node.js
 - Package manager: npm
 - Framework hints: vitest, eslint, prettier, typescript

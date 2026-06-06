@@ -64,14 +64,14 @@ Create a temporary project and verify the public package works:
 mkdir /tmp/agent-ready-smoke
 cd /tmp/agent-ready-smoke
 npm init -y
-npx agent-ready init --dry-run
-npx agent-ready badge
+npx @rasmusdriving/agent-ready init --dry-run
+npx @rasmusdriving/agent-ready badge
 ```
 
 Then verify the published package metadata:
 
 ```bash
-npm view agent-ready version
+npm view @rasmusdriving/agent-ready version
 ```
 
 ## After Release

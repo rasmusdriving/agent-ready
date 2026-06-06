@@ -1,5 +1,5 @@
 {
-  "name": "agent-ready",
+  "name": "@rasmusdriving/agent-ready",
   "version": "0.1.0",
   "description": "Local-first CLI that generates and validates repository instructions for coding agents and human contributors.",
   "type": "module",

@@ -5,8 +5,8 @@ Make your repository easier for AI coding agents and human contributors to work 
 AgentReady is a local-first CLI that scans a repo, generates practical `AGENTS.md` and contributor instructions, and checks that those instructions stay accurate as the project changes.
 
 ```bash
-npx agent-ready init
-npx agent-ready check
+npx @rasmusdriving/agent-ready init
+npx @rasmusdriving/agent-ready check
 ```
 
 ## Why Use It?
@@ -28,13 +28,13 @@ AgentReady treats contributor instructions as something testable.
 AgentReady runs on Node.js 20 or newer.
 
 ```bash
-npm install --save-dev agent-ready
+npm install --save-dev @rasmusdriving/agent-ready
 ```
 
 Or run it directly:
 
 ```bash
-npx agent-ready --help
+npx @rasmusdriving/agent-ready --help
 ```
 
 ## Commands
@@ -42,8 +42,8 @@ npx agent-ready --help
 ### Initialize Instructions
 
 ```bash
-npx agent-ready init --dry-run
-npx agent-ready init --yes --profile codex --include-pr-template --include-action
+npx @rasmusdriving/agent-ready init --dry-run
+npx @rasmusdriving/agent-ready init --yes --profile codex --include-pr-template --include-action
 ```
 
 `init` detects package manager, scripts, docs, framework hints, and basic monorepo markers. It creates files only when they do not already exist.
@@ -51,10 +51,10 @@ npx agent-ready init --yes --profile codex --include-pr-template --include-actio
 ### Check Instruction Drift
 
 ```bash
-npx agent-ready check
-npx agent-ready check --format markdown
-npx agent-ready check --format json
-npx agent-ready check --warn-only
+npx @rasmusdriving/agent-ready check
+npx @rasmusdriving/agent-ready check --format markdown
+npx @rasmusdriving/agent-ready check --format json
+npx @rasmusdriving/agent-ready check --warn-only
 ```
 
 `check` validates package-manager references, missing scripts, missing file references, and required `AGENTS.md` sections.
@@ -62,7 +62,7 @@ npx agent-ready check --warn-only
 ### Explain Readiness
 
 ```bash
-npx agent-ready doctor
+npx @rasmusdriving/agent-ready doctor
 ```
 
 `doctor` summarizes concrete strengths and next improvements. The score is directional, not a vanity metric or program threshold.
@@ -70,8 +70,8 @@ npx agent-ready doctor
 ### Create A Repo Context Packet
 
 ```bash
-npx agent-ready bundle
-npx agent-ready bundle --max-chars 8000 --output .agent-ready/repo-context.md
+npx @rasmusdriving/agent-ready bundle
+npx @rasmusdriving/agent-ready bundle --max-chars 8000 --output .agent-ready/repo-context.md
 ```
 
 `bundle` writes a compact Markdown packet with project summary, detected commands, known instruction files, top-level layout, workflows, and agent guardrails.
@@ -79,7 +79,7 @@ npx agent-ready bundle --max-chars 8000 --output .agent-ready/repo-context.md
 ### Badge
 
 ```bash
-npx agent-ready badge
+npx @rasmusdriving/agent-ready badge
 ```
 
 ## GitHub Actions
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npx agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
+      - run: npx @rasmusdriving/agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
 ```
 
 This repository also includes composite action metadata in `action.yml`. After a release tag exists, projects can pin this repo directly if they prefer action syntax:

@@ -6,6 +6,7 @@ All notable changes to AgentReady will be documented in this file.
 
 ### Added
 
+- Published npm package as `@rasmusdriving/agent-ready` with the `agent-ready` CLI binary.
 - Initial TypeScript CLI.
 - `agent-ready init` for generating `AGENTS.md`, `CONTRIBUTING.md`, PR template, workflow, and config files.
 - `agent-ready check` for package-manager mismatch, stale command, missing file reference, and missing section validation.
