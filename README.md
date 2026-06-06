@@ -84,7 +84,15 @@ npx agent-ready badge
 
 ## GitHub Actions
 
-Use the CLI in CI:
+This repository currently validates itself in CI by building the package and running the local CLI:
+
+```yaml
+- run: npm ci
+- run: npm run build
+- run: node dist/cli.js check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
+```
+
+After the npm package is published, downstream repositories can use `npx`. This does not require secrets:
 
 ```yaml
 name: AgentReady
@@ -105,6 +113,17 @@ jobs:
           node-version: 20
       - run: npx agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
 ```
+
+This repository also includes composite action metadata in `action.yml`. After a release tag exists, projects can pin this repo directly if they prefer action syntax:
+
+```yaml
+- uses: rasmusdriving/agent-ready@v0.1.0
+  with:
+    mode: warn
+    format: markdown
+```
+
+A dedicated AgentReady action repository under an `agentready` organization has not been published. The roadmap keeps that as a future packaging decision, so current docs should not depend on that path.
 
 ## Examples
 
