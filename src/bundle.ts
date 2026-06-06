@@ -52,8 +52,8 @@ export async function createRepoContextBundle(
 function projectSection(scan: RepoScan, readmeSummary: string): string {
   const lines = [
     "## Project",
-    `- Name: ${scan.packageJson?.name ?? path.basename(scan.root)}`,
-    `- Ecosystem: ${scan.packageJson ? "Node.js" : "unknown"}`,
+    `- Name: ${scan.packageJson?.name ?? scan.python?.name ?? path.basename(scan.root)}`,
+    `- Ecosystem: ${formatEcosystem(scan)}`,
     `- Package manager: ${scan.packageManager}`
   ];
 
@@ -61,11 +61,27 @@ function projectSection(scan: RepoScan, readmeSummary: string): string {
     lines.push(`- Framework hints: ${scan.frameworks.join(", ")}`);
   }
 
+  if (scan.python && scan.python.tools.length > 0) {
+    lines.push(`- Python tool hints: ${scan.python.tools.join(", ")}`);
+  }
+
   if (readmeSummary) {
     lines.push("", readmeSummary);
   }
 
   return lines.join("\n");
+}
+
+function formatEcosystem(scan: RepoScan): string {
+  if (scan.ecosystem === "node") {
+    return "Node.js";
+  }
+
+  if (scan.ecosystem === "python") {
+    return "Python";
+  }
+
+  return "unknown";
 }
 
 function commandSection(scan: RepoScan, includeScripts: boolean): string {

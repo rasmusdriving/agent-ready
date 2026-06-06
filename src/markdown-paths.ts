@@ -20,6 +20,15 @@ const defaultLocalPrefixes = new Set([
 ]);
 
 const fileExtensionPattern = /\.[A-Za-z0-9]{1,12}$/;
+const knownRootDocs = new Set([
+  "AGENTS.md",
+  "CHANGELOG.md",
+  "CODE_OF_CONDUCT.md",
+  "CONTRIBUTING.md",
+  "README.md",
+  "ROADMAP.md",
+  "SECURITY.md"
+]);
 
 export function extractMarkdownPathReferences(
   content: string,
@@ -108,12 +117,12 @@ function shouldIgnoreCandidate(value: string): boolean {
 }
 
 function isLikelyInlinePath(value: string, localPrefixes: Set<string>): boolean {
-  if (fileExtensionPattern.test(value)) {
-    return true;
+  if (!value.includes("/")) {
+    return knownRootDocs.has(value);
   }
 
-  if (!value.includes("/")) {
-    return false;
+  if (fileExtensionPattern.test(value)) {
+    return true;
   }
 
   const firstSegment = value.split("/")[0];

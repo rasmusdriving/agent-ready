@@ -1,4 +1,14 @@
-export type PackageManager = "npm" | "pnpm" | "yarn" | "bun" | "unknown";
+export type Ecosystem = "node" | "python" | "generic";
+
+export type PackageManager =
+  | "npm"
+  | "pnpm"
+  | "yarn"
+  | "bun"
+  | "uv"
+  | "poetry"
+  | "pip"
+  | "unknown";
 
 export type OutputFormat = "text" | "json" | "markdown";
 
@@ -15,7 +25,9 @@ export interface PackageJsonData {
 
 export interface RepoScan {
   root: string;
+  ecosystem: Ecosystem;
   packageJson?: PackageJsonData;
+  python?: PythonProjectData;
   packageManager: PackageManager;
   lockfiles: string[];
   scripts: Record<string, string>;
@@ -23,6 +35,13 @@ export interface RepoScan {
   frameworks: string[];
   monorepo: MonorepoInfo;
   existingDocs: string[];
+}
+
+export interface PythonProjectData {
+  name?: string;
+  description?: string;
+  files: string[];
+  tools: string[];
 }
 
 export interface MonorepoInfo {

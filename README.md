@@ -137,19 +137,21 @@ A dedicated AgentReady action repository under an `agentready` organization has 
 - No repository contents are sent to external services.
 - Project scripts are not executed during scanning.
 
-## MVP Scope
+## Current Scope
 
-AgentReady currently focuses on Node.js repositories:
+AgentReady currently has a Node.js-focused MVP plus a conservative first Python detection pass:
 
 - npm, pnpm, yarn, and bun lockfile detection
 - `package.json` script detection
+- `pyproject.toml`, `requirements.txt`, uv, Poetry, and pip detection
+- Python command hints for pytest, Ruff, Black, and mypy when detected
 - `AGENTS.md`, `CONTRIBUTING.md`, PR template, and workflow generation
 - command drift validation
 - repo context bundle generation
 - text, Markdown, and JSON output
 - basic monorepo hints
 
-See [ROADMAP.md](ROADMAP.md) for planned Python, Rust, Go, and nested `AGENTS.md` support.
+See [ROADMAP.md](ROADMAP.md) for deeper Python support, Rust, Go, and nested `AGENTS.md` support.
 
 ## Relationship To Codex
 

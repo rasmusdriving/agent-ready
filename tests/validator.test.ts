@@ -169,4 +169,37 @@ Stay local.
       "AGENTS.md references `src/old-api`, but that path does not exist."
     ]);
   });
+
+  it("does not mark Python repositories as unsupported", async () => {
+    const root = await createTempRepo();
+    await writeText(path.join(root, "requirements.txt"), "pytest==8.0.0\n");
+    await writeText(
+      path.join(root, "AGENTS.md"),
+      `# AGENTS.md
+
+## Project overview
+Sample.
+
+## Setup
+python -m pip install -r requirements.txt
+
+## Testing
+python -m pytest
+
+## Pull request expectations
+Run checks.
+
+## Review guidelines
+Check commands.
+
+## Security and privacy notes
+Stay local.
+`
+    );
+
+    const scan = await scanRepo(root);
+    const issues = await validateRepo(scan);
+
+    expect(issues.some((issue) => issue.category === "unsupported-ecosystem")).toBe(false);
+  });
 });

@@ -1,6 +1,11 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathExists, readJsonIfExists } from "./fs.js";
+import {
+  detectPythonCommands,
+  detectPythonPackageManager,
+  detectPythonProject
+} from "./python.js";
 import type { CommandKind, PackageJsonData, PackageManager, RepoScan } from "./types.js";
 
 const lockfileManagers: Array<[string, PackageManager]> = [
@@ -38,17 +43,29 @@ export async function scanRepo(root: string): Promise<RepoScan> {
     path.join(root, "package.json")
   );
   const normalizedPackageJson = normalizePackageJson(packageJson);
+  const python = await detectPythonProject(root);
   const lockfiles = await detectLockfiles(root);
-  const packageManager = detectPackageManager(lockfiles);
+  const ecosystem = normalizedPackageJson ? "node" : python ? "python" : "generic";
+  const packageManager = normalizedPackageJson
+    ? detectPackageManager(lockfiles)
+    : python
+      ? detectPythonPackageManager(python)
+      : "unknown";
   const scripts = normalizedPackageJson?.scripts ?? {};
-  const commands = detectCommands(packageManager, scripts);
+  const commands = normalizedPackageJson
+    ? detectCommands(packageManager, scripts)
+    : python
+      ? detectPythonCommands(packageManager, python)
+      : {};
   const monorepo = await detectMonorepo(root, normalizedPackageJson);
   const existingDocs = await detectExistingDocs(root);
   const frameworks = detectFrameworks(normalizedPackageJson);
 
   return {
     root,
+    ecosystem,
     packageJson: normalizedPackageJson,
+    python,
     packageManager,
     lockfiles,
     scripts,

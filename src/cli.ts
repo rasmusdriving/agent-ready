@@ -198,7 +198,7 @@ function calculateScore(
   scan: Awaited<ReturnType<typeof scanRepo>>,
   issues: ValidationIssue[]
 ): number {
-  const base = scan.packageJson ? 45 : 20;
+  const base = scan.ecosystem !== "generic" ? 45 : 20;
   const commandPoints =
     ["test", "lint", "build"].filter((kind) => scan.commands[kind as "test"]).length * 10;
   const docPoints = scan.existingDocs.includes("AGENTS.md") ? 15 : 0;
@@ -207,7 +207,10 @@ function calculateScore(
 }
 
 function strongSignals(scan: Awaited<ReturnType<typeof scanRepo>>): string[] {
-  const signals = [`Package manager detected: ${scan.packageManager}`];
+  const signals = [
+    `Ecosystem detected: ${scan.ecosystem}`,
+    `Package manager detected: ${scan.packageManager}`
+  ];
 
   for (const kind of ["test", "lint", "build"] as const) {
     if (scan.commands[kind]) {

@@ -46,7 +46,8 @@ AgentReady's first goal is to be useful to real maintainers before it becomes br
 
 ## Phase 4: Ecosystem Expansion
 
-- [ ] Python support.
+- [x] First conservative Python detection pass.
+- [ ] Deeper Python support.
 - [ ] Rust support.
 - [ ] Go support.
 - [ ] Nested `AGENTS.md` recommendations and generation.

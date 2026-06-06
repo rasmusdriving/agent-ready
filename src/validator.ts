@@ -29,7 +29,7 @@ export async function validateRepo(
   const issues: ValidationIssue[] = [];
   const docs = await readDocs(scan.root);
 
-  if (!scan.packageJson) {
+  if (scan.ecosystem === "generic") {
     issues.push({
       category: "unsupported-ecosystem",
       severity: "warning",
@@ -99,6 +99,10 @@ function checkPackageManagerMismatch(
   scan: RepoScan
 ): ValidationIssue[] {
   if (scan.packageManager === "unknown") {
+    return [];
+  }
+
+  if (scan.ecosystem !== "node") {
     return [];
   }
 
