@@ -36,6 +36,7 @@ Make your repository easier for AI coding agents and human contributors to work 
 - CHANGELOG.md
 - CODE_OF_CONDUCT.md
 - CONTRIBUTING.md
+- docs/
 - eslint.config.js
 - examples/
 - LICENSE
