@@ -67,6 +67,15 @@ npx agent-ready doctor
 
 `doctor` summarizes concrete strengths and next improvements. The score is directional, not a vanity metric or program threshold.
 
+### Create A Repo Context Packet
+
+```bash
+npx agent-ready bundle
+npx agent-ready bundle --max-chars 8000 --output .agent-ready/repo-context.md
+```
+
+`bundle` writes a compact Markdown packet with project summary, detected commands, known instruction files, top-level layout, workflows, and agent guardrails.
+
 ### Badge
 
 ```bash
@@ -117,6 +126,7 @@ AgentReady currently focuses on Node.js repositories:
 - `package.json` script detection
 - `AGENTS.md`, `CONTRIBUTING.md`, PR template, and workflow generation
 - command drift validation
+- repo context bundle generation
 - text, Markdown, and JSON output
 - basic monorepo hints
 

@@ -19,6 +19,7 @@ AgentReady's first goal is to be useful to real maintainers before it becomes br
 - [x] Pull request template generation.
 - [x] Dry-run and safe write behavior.
 - [x] Text, Markdown, and JSON check output.
+- [x] Repo context bundle generation.
 - [ ] Interactive confirmation without `--yes`.
 - [ ] Snapshot tests for generated Markdown.
 - [ ] Configurable required sections.

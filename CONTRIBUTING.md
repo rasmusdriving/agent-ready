@@ -11,16 +11,16 @@ Thanks for helping improve this project.
 ## Development setup
 
 ```bash
-npm dev
-npm build
+npm run dev
+npm run build
 ```
 
 ## Running checks
 
 ```bash
 npm test
-npm lint
-npm format
+npm run lint
+npm run format
 ```
 
 ## Opening pull requests

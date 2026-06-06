@@ -27,6 +27,7 @@ npm install
 npm run dev
 npm run build
 npm run format
+npm run check
 ```
 
 ## Testing

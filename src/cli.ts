@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import process from "node:process";
 import path from "node:path";
+import { createRepoContextBundle } from "./bundle.js";
 import { scanRepo } from "./scanner.js";
 import { createInitProposals } from "./generator.js";
 import { writeFileCreatingDirs } from "./fs.js";
@@ -17,13 +18,18 @@ interface CliOptions {
   includePrTemplate: boolean;
   includeAction: boolean;
   includeContributing: boolean;
+  output: string;
+  maxChars: number;
+  includeTree: boolean;
+  includeScripts: boolean;
+  includeWorkflows: boolean;
   format: OutputFormat;
   warnOnly: boolean;
   strict: boolean;
   config?: string;
 }
 
-const commands = ["init", "check", "doctor", "badge", "help"];
+const commands = ["init", "check", "doctor", "badge", "bundle", "help"];
 
 async function main(): Promise<void> {
   const options = parseArgs(process.argv.slice(2));
@@ -89,6 +95,24 @@ async function main(): Promise<void> {
     return;
   }
 
+  if (options.command === "bundle") {
+    const result = await createRepoContextBundle(scan, {
+      output: options.output,
+      maxChars: options.maxChars,
+      includeTree: options.includeTree,
+      includeScripts: options.includeScripts,
+      includeWorkflows: options.includeWorkflows
+    });
+
+    process.stdout.write(
+      `Repo context written to ${path.relative(options.root, result.path)}.\n`
+    );
+    if (result.truncated) {
+      process.stdout.write(`Output was truncated to ${options.maxChars} characters.\n`);
+    }
+    return;
+  }
+
   if (options.command === "doctor") {
     const issues = await validateRepo(scan, options.config);
     process.stdout.write(
@@ -115,6 +139,11 @@ function parseArgs(args: string[]): CliOptions {
     includePrTemplate: false,
     includeAction: false,
     includeContributing: true,
+    output: ".agent-ready/repo-context.md",
+    maxChars: 12000,
+    includeTree: true,
+    includeScripts: true,
+    includeWorkflows: true,
     format: "text",
     warnOnly: false,
     strict: false
@@ -143,6 +172,18 @@ function parseArgs(args: string[]): CliOptions {
     } else if (arg === "--config" && next) {
       options.config = next;
       index += 1;
+    } else if (arg === "--output" && next) {
+      options.output = next;
+      index += 1;
+    } else if (arg === "--max-chars" && next && Number.isInteger(Number(next))) {
+      options.maxChars = Number(next);
+      index += 1;
+    } else if (arg === "--no-tree") {
+      options.includeTree = false;
+    } else if (arg === "--no-scripts") {
+      options.includeScripts = false;
+    } else if (arg === "--no-workflows") {
+      options.includeWorkflows = false;
     } else if (arg === "--help" || arg === "-h") {
       options.command = "help";
     } else {
@@ -213,6 +254,7 @@ Usage:
   agent-ready init [--yes] [--dry-run] [--profile codex|generic]
   agent-ready check [--format text|json|markdown] [--warn-only]
   agent-ready doctor
+  agent-ready bundle [--max-chars 12000] [--output .agent-ready/repo-context.md]
   agent-ready badge
 
 Options:
