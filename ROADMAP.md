@@ -9,6 +9,7 @@ AgentReady's first goal is to be useful to real maintainers before it becomes br
 - [x] TypeScript CLI setup.
 - [x] Tests, linting, formatting, and CI.
 - [x] Project governance files.
+- [x] Release checklist.
 
 ## Phase 1: Node.js MVP
 

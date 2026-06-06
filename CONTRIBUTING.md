@@ -43,4 +43,4 @@ Follow the existing TypeScript style and keep modules small.
 
 ## Release process
 
-Releases are documented in `CHANGELOG.md`. Maintainers publish npm releases from tagged commits.
+Releases are documented in `CHANGELOG.md`. Maintainers publish npm releases from tagged commits and should follow `docs/release-checklist.md`.

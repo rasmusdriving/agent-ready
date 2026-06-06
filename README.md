@@ -146,6 +146,10 @@ npm run lint
 npm run format
 ```
 
+## Releases
+
+Maintainers should follow [docs/release-checklist.md](docs/release-checklist.md) before publishing to npm or creating a GitHub release.
+
 ## Contributing
 
 Issues and PRs are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md), [ROADMAP.md](ROADMAP.md), and this repo's [AGENTS.md](AGENTS.md).
