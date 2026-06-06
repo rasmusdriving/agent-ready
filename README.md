@@ -97,6 +97,10 @@ jobs:
       - run: npx agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
 ```
 
+## Examples
+
+- [examples/node-basic](examples/node-basic) shows a small Node.js package with generated `AGENTS.md`, AgentReady config, and a CI check workflow.
+
 ## Local-First Promise
 
 - No API key required.

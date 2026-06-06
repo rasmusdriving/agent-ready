@@ -1,0 +1,17 @@
+name: AgentReady
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  agent-ready:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npx agent-ready check --format markdown --warn-only >> "$GITHUB_STEP_SUMMARY"
