@@ -39,7 +39,8 @@ AgentReady's first goal is to be useful to real maintainers before it becomes br
 
 - [x] CI workflow example.
 - [x] Composite action metadata.
-- [ ] Dedicated `agentready/agent-ready-action` repository or published action path.
+- [x] Current GitHub Actions usage documented without implying a separate action repo exists.
+- [ ] Decide whether to publish a dedicated `agentready/agent-ready-action` repo, keep action metadata in this repo, or support both.
 - [ ] Example repo using the action publicly.
 - [ ] Step summary examples in docs.
 
