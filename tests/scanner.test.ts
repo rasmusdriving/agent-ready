@@ -56,4 +56,51 @@ describe("scanRepo", () => {
     expect(scan.commands.lint).toBe("npm run lint");
     expect(scan.commands.build).toBe("npm run build");
   });
+
+  it("detects Python pyproject projects without running project code", async () => {
+    const root = await createTempRepo();
+    await writeText(
+      path.join(root, "pyproject.toml"),
+      `[project]
+name = "sample-python"
+description = "A Python sample."
+dependencies = ["pytest", "ruff", "mypy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+`
+    );
+    await writeText(path.join(root, "uv.lock"), "# lock\n");
+
+    const scan = await scanRepo(root);
+
+    expect(scan.ecosystem).toBe("python");
+    expect(scan.packageManager).toBe("uv");
+    expect(scan.python?.name).toBe("sample-python");
+    expect(scan.python?.description).toBe("A Python sample.");
+    expect(scan.python?.tools).toEqual(expect.arrayContaining(["pytest", "ruff", "mypy"]));
+    expect(scan.commands.install).toBe("uv sync");
+    expect(scan.commands.test).toBe("uv run pytest");
+    expect(scan.commands.lint).toBe("uv run ruff check .");
+    expect(scan.commands.typecheck).toBe("uv run mypy .");
+  });
+
+  it("detects requirements.txt Python projects conservatively", async () => {
+    const root = await createTempRepo();
+    await writeText(
+      path.join(root, "requirements.txt"),
+      `pytest==8.0.0
+black==24.0.0
+`
+    );
+
+    const scan = await scanRepo(root);
+
+    expect(scan.ecosystem).toBe("python");
+    expect(scan.packageManager).toBe("pip");
+    expect(scan.commands.install).toBe("python -m pip install -r requirements.txt");
+    expect(scan.commands.test).toBe("python -m pytest");
+    expect(scan.commands.format).toBe("python -m black --check .");
+    expect(scan.commands.lint).toBeUndefined();
+  });
 });

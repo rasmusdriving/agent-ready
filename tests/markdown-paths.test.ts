@@ -16,12 +16,14 @@ describe("extractMarkdownPathReferences", () => {
     ]);
   });
 
-  it("ignores external URLs, anchors, package names, and command snippets", () => {
+  it("ignores external URLs, anchors, package names, command snippets, and bare config names", () => {
     const references = extractMarkdownPathReferences(`
 [OpenAI](https://openai.com/form/codex-for-oss/)
 [Anchor](#github-actions)
 \`@scope/package\`
 \`agentready/agent-ready-action\`
+\`pyproject.toml\`
+\`requirements.txt\`
 \`npm run check\`
 
 \`\`\`bash

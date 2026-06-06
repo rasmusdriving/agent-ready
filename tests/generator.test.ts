@@ -33,4 +33,30 @@ describe("createInitProposals", () => {
       ".github/workflows/agent-ready.yml"
     );
   });
+
+  it("generates conservative Python guidance", async () => {
+    const root = await createTempRepo();
+    await writeText(
+      path.join(root, "requirements.txt"),
+      `pytest==8.0.0
+ruff==0.6.0
+`
+    );
+
+    const scan = await scanRepo(root);
+    const proposals = await createInitProposals(scan, {
+      profile: "codex",
+      includePrTemplate: false,
+      includeAction: false,
+      includeContributing: true
+    });
+    const agents = proposals.find((proposal) => proposal.path === "AGENTS.md")?.content;
+
+    expect(agents).toContain("Python project using pip");
+    expect(agents).toContain("python -m pip install -r requirements.txt");
+    expect(agents).toContain("python -m pytest");
+    expect(agents).toContain("python -m ruff check .");
+    expect(agents).not.toContain("Node.js project");
+    expect(agents).not.toContain("npm install");
+  });
 });

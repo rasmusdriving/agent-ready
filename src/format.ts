@@ -5,7 +5,7 @@ export function formatScan(scan: RepoScan): string {
     "AgentReady scanned your repository.",
     "",
     "Detected:",
-    `- Ecosystem: ${scan.packageJson ? "Node.js" : "unknown"}`,
+    `- Ecosystem: ${formatEcosystem(scan)}`,
     `- Package manager: ${scan.packageManager}`,
     `- Test command: ${scan.commands.test ?? "not detected"}`,
     `- Lint command: ${scan.commands.lint ?? "not detected"}`,
@@ -17,6 +17,18 @@ export function formatScan(scan: RepoScan): string {
   }
 
   return `${lines.join("\n")}\n`;
+}
+
+function formatEcosystem(scan: RepoScan): string {
+  if (scan.ecosystem === "node") {
+    return "Node.js";
+  }
+
+  if (scan.ecosystem === "python") {
+    return "Python";
+  }
+
+  return "unknown";
 }
 
 export function formatIssues(issues: ValidationIssue[], format: OutputFormat): string {

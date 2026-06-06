@@ -51,9 +51,12 @@ export async function createInitProposals(
 }
 
 export function generateAgentsMd(scan: RepoScan, profile: AgentProfile): string {
-  const projectName = scan.packageJson?.name ?? path.basename(scan.root);
+  const projectName =
+    scan.packageJson?.name ?? scan.python?.name ?? path.basename(scan.root);
   const description =
-    scan.packageJson?.description ?? "Repository purpose is not documented yet.";
+    scan.packageJson?.description ??
+    scan.python?.description ??
+    "Repository purpose is not documented yet.";
   const profileNote =
     profile === "codex"
       ? "This file includes explicit review guidance for Codex and other coding agents."
@@ -221,6 +224,14 @@ jobs:
 }
 
 function describeRepo(scan: RepoScan): string {
+  if (scan.ecosystem === "python") {
+    const tools =
+      scan.python && scan.python.tools.length > 0
+        ? ` with ${scan.python.tools.join(", ")} detected`
+        : "";
+    return `Python project using ${scan.packageManager}${tools}`;
+  }
+
   if (!scan.packageJson) {
     return "generic repository";
   }
@@ -242,6 +253,12 @@ function layoutBullets(scan: RepoScan): string {
     );
     bullets.push(
       "- Add nested AGENTS.md files for package-specific guidance when packages diverge."
+    );
+  }
+
+  if (scan.python) {
+    bullets.push(
+      `- Python markers detected: ${scan.python.files.map((file) => `\`${file}\``).join(", ")}.`
     );
   }
 
