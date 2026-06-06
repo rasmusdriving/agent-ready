@@ -17,16 +17,15 @@ This packet summarizes the current application evidence for AgentReady.
 - Issue-backed development and merged PR trail.
 - CI and AgentReady self-check workflows passing.
 - Public npm publish accepted for `@rasmusdriving/agent-ready@0.1.0`.
-- npm dist-tag endpoint reports `latest: 0.1.0`.
+- npm package document reports version `0.1.0`.
+- npm dist-tag reports `latest: 0.1.0`.
 - npm access status reports the package as public.
-- Direct public tarball install works:
+- Clean public package install works:
 
 ```bash
-npm install https://registry.npmjs.org/@rasmusdriving/agent-ready/-/agent-ready-0.1.0.tgz
+npm install @rasmusdriving/agent-ready@0.1.0
 npx agent-ready badge
 ```
-
-Note: at release time, the npm package document endpoint still returned 404 while the dist-tag and tarball endpoints were live. Recheck before submitting.
 
 ## Draft Answers
 
@@ -44,9 +43,9 @@ AgentReady was built in public from a PRD focused on a real maintainer pain: con
 
 ## Submission Checklist
 
-- [ ] Confirm npm package is visible through `npm view @rasmusdriving/agent-ready version`.
-- [ ] Confirm clean install works with `npm install @rasmusdriving/agent-ready`.
-- [ ] Confirm latest GitHub CI and AgentReady workflows are green.
+- [x] Confirm npm package is visible through `npm view @rasmusdriving/agent-ready version`.
+- [x] Confirm clean install works with `npm install @rasmusdriving/agent-ready`.
+- [x] Confirm latest GitHub CI and AgentReady workflows are green.
 - [ ] Confirm GitHub profile visibility is public.
 - [ ] Gather OpenAI Organization ID from platform settings.
 - [ ] Submit form: https://openai.com/form/codex-for-oss/
